@@ -1,9 +1,9 @@
 # Prabhav Mhapne - AI Product Manager Portfolio
 
-Professional portfolio website showcasing AI/ML product management work and technical product leadership.
+Professional portfolio website showcasing product management work and technical product leadership.
 
 ## 🚀 Live Website
-https://www.verifyr.de/
+https://www.prabhavmhapne.com
 
 ## 📁 Structure
 - **Root** - Production portfolio website (single-page HTML app)
@@ -43,17 +43,17 @@ Single-file web application — all HTML, CSS, and JavaScript are co-located in 
   └──────────┬──────────┘
              │ serves files
              ▼
-┌──────────────────────────────────────────────────────────────┐
-│                          Browser                             │
-│                                                              │
-│  ┌──────────────┐   ┌─────────────────┐   ┌──────────────┐  │
-│  │ Asset        │   │ Single-Page App │   │ i18n Engine  │  │
-│  │ Preloader    │──▶│  index.html     │──▶│ EN / DE      │  │
-│  │ (progress %) │   │  (4,100 lines)  │   │ localStorage │  │
-│  └──────────────┘   └────────┬────────┘   └──────────────┘  │
-│                              │                               │
-│          ┌───────────────────┼───────────────────┐           │
-│          ▼                   ▼                   ▼           │
+┌─────────────────────────────────────────────────────────────┐
+│                          Browser                            │
+│                                                             │
+│  ┌──────────────┐   ┌─────────────────┐    ┌──────────────┐ │
+│  │ Asset        │   │ Single-Page App │    │ i18n Engine  │ │
+│  │ Preloader    │─ ▶  index.html      │──▶│ EN / DE      │ │
+│  │ (progress %) │   │  (4,100 lines)  │    │ localStorage │ │
+│  └──────────────┘   └────────┬────────┘    └──────────────┘ │
+│                              │                              │
+│          ┌───────────────────┼───────────────────┐          │
+│          ▼                   ▼                   ▼          │
 │   ┌─────────────┐   ┌──────────────┐   ┌──────────────┐     │
 │   │ Scroll      │   │ Product      │   │ GDPR Consent │     │
 │   │ Reveal      │   │ Modals       │   │ Manager      │     │
@@ -70,7 +70,7 @@ Single-file web application — all HTML, CSS, and JavaScript are co-located in 
                                               │ HTTPS API
                                               ▼
                             ┌─────────────────────────────┐
-                            │       Supabase (BaaS)        │
+                            │       Supabase (BaaS)       │
                             │                             │
                             │  ┌───────────────────────┐  │
                             │  │ contact_submissions   │  │
@@ -142,7 +142,7 @@ Product Manager with 4+ years of engineering experience transitioning into produ
 
 **Certifications:**
 - SAFe® 6 Product Owner/Product Manager
-- AI Product Management (Maven/OpenAI Product Leader)
+- AI Product Management Certification with Capstone Project (Maven)
 - Product Management Bootcamp (Digitale Leute School)
 
 **Location:** Düsseldorf, Germany (open to relocation)
@@ -152,11 +152,6 @@ Product Manager with 4+ years of engineering experience transitioning into produ
 - **LinkedIn:** [https://www.linkedin.com/in/prabhavmhapne/]
 - **Email:** [prabhavmhapne@gmx.de]
 - **GitHub:** [https://github.com/prabhavmhapne-aipm/]
-
-## 🎯 Target Roles
-- Junior/Associate AI Product Manager
-- Technical Product Manager - AI/ML
-- Product Manager - GenAI (0-2 years)
 
 ---
 
