@@ -22,6 +22,65 @@ https://www.verifyr.de/
 - **Performance:** Progressive loading with asset preloading, optimized images
 - **Accessibility:** Semantic HTML, ARIA labels, keyboard navigation
 
+## 🏗️ Architecture
+
+### Overview
+
+Single-file web application — all HTML, CSS, and JavaScript are co-located in `index.html` to eliminate network round-trips and enable zero-build-step deployment to any static host.
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│                          Browser                             │
+│                                                              │
+│  ┌──────────────┐   ┌─────────────────┐   ┌──────────────┐  │
+│  │ Asset        │   │ Single-Page App │   │ i18n Engine  │  │
+│  │ Preloader    │──▶│  index.html     │──▶│ EN / DE      │  │
+│  │ (progress %) │   │  (4,100 lines)  │   │ localStorage │  │
+│  └──────────────┘   └────────┬────────┘   └──────────────┘  │
+│                              │                               │
+│          ┌───────────────────┼───────────────────┐           │
+│          ▼                   ▼                   ▼           │
+│   ┌─────────────┐   ┌──────────────┐   ┌──────────────┐     │
+│   │ Scroll      │   │ Product      │   │ GDPR Consent │     │
+│   │ Reveal      │   │ Modals       │   │ Manager      │     │
+│   │ (Intersect. │   │ (dynamic     │   │              │     │
+│   │  Observer)  │   │  rendering)  │   └──────┬───────┘     │
+│   └─────────────┘   └──────────────┘          │             │
+│                                               ▼             │
+│                                      ┌──────────────┐       │
+│                                      │  Analytics   │       │
+│                                      │  (consent-   │       │
+│                                      │   gated)     │       │
+│                                      └──────────────┘       │
+│                                                              │
+│  Static Assets                                               │
+│  ├── career-logos/   (6 SVG/PNG company logos)               │
+│  ├── skill-icons/    (10 SVG tool icons)                     │
+│  └── product-images/ (4 product screenshots)                 │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Key Design Decisions
+
+| Decision | Approach | Rationale |
+|---|---|---|
+| **No framework** | Vanilla HTML/CSS/JS | Zero dependencies, no build step, instant deploy, no supply-chain risk |
+| **Single file** | All code in `index.html` | Eliminates extra HTTP requests; fully portable and self-contained |
+| **Bilingual (EN/DE)** | `data-i18n` attributes + `localStorage` | Targets German job market without duplicate pages; language state persists across reloads |
+| **Progressive loading** | Asset preloader with % progress ring | Prevents layout shift on slow connections; ensures images and fonts are ready before content reveals |
+| **Scroll animations** | Intersection Observer API | GPU-accelerated; avoids scroll event polling which degrades performance on low-end devices |
+| **GDPR consent** | Custom consent manager | Legally required for EU visitors; analytics are blocked until explicit opt-in |
+| **SEO** | OG tags, hreflang, sitemap.xml, robots.txt | Rich social previews; signals bilingual content to search engines for EN and DE indexing |
+
+### Key Modules
+
+- **Asset Preloader** — Tracks image and font loading in parallel, renders an animated SVG progress ring, and reveals the page only when all assets are ready
+- **i18n Engine** — Scans all DOM elements for `data-i18n` attributes on load and language toggle, swaps text content, and persists the user's preference to `localStorage`
+- **Scroll Reveal** — An Intersection Observer watches each `<section>`; when it enters the viewport, a `.visible` class triggers a CSS fade-in transition
+- **Product Modals** — Case study content is stored as a JavaScript data object and dynamically injected into a single reusable modal template, avoiding repeated HTML markup
+- **Consent Manager** — GDPR-compliant banner with granular category toggles; all analytics calls are gated behind a consent check before firing
+- **Analytics** — Custom event tracking for key interactions (CTA clicks, modal opens, language switches); fires only after consent is granted
+
 ## 📊 Featured Projects
 
 ### 1. MyPorsche GenAI CarPlay Assistant (Porsche Digital)
