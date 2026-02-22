@@ -51,13 +51,31 @@ Single-file web application — all HTML, CSS, and JavaScript are co-located in 
 │                                      │  Analytics   │       │
 │                                      │  (consent-   │       │
 │                                      │   gated)     │       │
-│                                      └──────────────┘       │
-│                                                              │
-│  Static Assets                                               │
-│  ├── career-logos/   (6 SVG/PNG company logos)               │
-│  ├── skill-icons/    (10 SVG tool icons)                     │
-│  └── product-images/ (4 product screenshots)                 │
-└──────────────────────────────────────────────────────────────┘
+│                                      └──────┬───────┘       │
+└─────────────────────────────────────────────┼───────────────┘
+                                              │ HTTPS API
+                                              ▼
+                            ┌─────────────────────────────┐
+                            │       Supabase (BaaS)        │
+                            │                             │
+                            │  ┌───────────────────────┐  │
+                            │  │ contact_submissions   │  │
+                            │  │ (contact form data)   │  │
+                            │  └───────────────────────┘  │
+                            │  ┌───────────────────────┐  │
+                            │  │ analytics_events      │  │
+                            │  │ (page interactions)   │  │
+                            │  └───────────────────────┘  │
+                            │  ┌───────────────────────┐  │
+                            │  │ consent_decisions     │  │
+                            │  │ (GDPR legal record)   │  │
+                            │  └───────────────────────┘  │
+                            └─────────────────────────────┘
+
+  Static Assets
+  ├── career-logos/   (6 SVG/PNG company logos)
+  ├── skill-icons/    (10 SVG tool icons)
+  └── product-images/ (4 product screenshots)
 ```
 
 ### Key Design Decisions
@@ -71,6 +89,8 @@ Single-file web application — all HTML, CSS, and JavaScript are co-located in 
 | **Scroll animations** | Intersection Observer API | GPU-accelerated; avoids scroll event polling which degrades performance on low-end devices |
 | **GDPR consent** | Custom consent manager | Legally required for EU visitors; analytics are blocked until explicit opt-in |
 | **SEO** | OG tags, hreflang, sitemap.xml, robots.txt | Rich social previews; signals bilingual content to search engines for EN and DE indexing |
+| **Backend** | Supabase (BaaS) via JS SDK | Provides a managed Postgres database and REST API with no server to maintain; anon key is safe to expose client-side due to row-level security |
+| **GDPR backend logging** | Consent decisions written to Supabase | Creates a verifiable audit trail of user consent as required under Art. 28 DSGVO; Supabase operates under a data processing agreement |
 
 ### Key Modules
 
@@ -80,6 +100,7 @@ Single-file web application — all HTML, CSS, and JavaScript are co-located in 
 - **Product Modals** — Case study content is stored as a JavaScript data object and dynamically injected into a single reusable modal template, avoiding repeated HTML markup
 - **Consent Manager** — GDPR-compliant banner with granular category toggles; all analytics calls are gated behind a consent check before firing
 - **Analytics** — Custom event tracking for key interactions (CTA clicks, modal opens, language switches); fires only after consent is granted
+- **Supabase Integration** — Backend-as-a-Service layer handling three data flows: contact form submissions → `contact_submissions` table, page interaction events → `analytics_events` table, and consent decisions → `consent_decisions` table for GDPR audit trail
 
 ## 📊 Featured Projects
 
