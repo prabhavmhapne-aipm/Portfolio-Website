@@ -17,6 +17,8 @@ https://www.verifyr.de/
 
 ## 🛠️ Tech Stack
 - **Frontend:** HTML5, CSS3, JavaScript (vanilla)
+- **Hosting:** Netlify (CDN, continuous deployment from GitHub)
+- **Backend:** Supabase (Postgres database, REST API)
 - **Design:** Responsive design, mobile-first approach
 - **SEO:** Open Graph meta tags, Twitter Cards, structured data
 - **Performance:** Progressive loading with asset preloading, optimized images
@@ -26,9 +28,21 @@ https://www.verifyr.de/
 
 ### Overview
 
-Single-file web application — all HTML, CSS, and JavaScript are co-located in `index.html` to eliminate network round-trips and enable zero-build-step deployment to any static host.
+Single-file web application — all HTML, CSS, and JavaScript are co-located in `index.html` to eliminate network round-trips and enable zero-build-step deployment. The site is hosted on Netlify with continuous deployment from this GitHub repository, and uses Supabase as a managed backend for form submissions, analytics, and GDPR audit logging.
 
 ```
+  GitHub Repository
+  (source of truth)
+         │
+         │ git push → triggers deploy
+         ▼
+  ┌─────────────────────┐
+  │   Netlify           │
+  │   CDN + CI/CD       │
+  │   (global edge)     │
+  └──────────┬──────────┘
+             │ serves files
+             ▼
 ┌──────────────────────────────────────────────────────────────┐
 │                          Browser                             │
 │                                                              │
@@ -89,6 +103,7 @@ Single-file web application — all HTML, CSS, and JavaScript are co-located in 
 | **Scroll animations** | Intersection Observer API | GPU-accelerated; avoids scroll event polling which degrades performance on low-end devices |
 | **GDPR consent** | Custom consent manager | Legally required for EU visitors; analytics are blocked until explicit opt-in |
 | **SEO** | OG tags, hreflang, sitemap.xml, robots.txt | Rich social previews; signals bilingual content to search engines for EN and DE indexing |
+| **Hosting** | Netlify (CDN + CI/CD) | Push to GitHub automatically triggers a deploy; global CDN ensures fast load times worldwide with no server management |
 | **Backend** | Supabase (BaaS) via JS SDK | Provides a managed Postgres database and REST API with no server to maintain; anon key is safe to expose client-side due to row-level security |
 | **GDPR backend logging** | Consent decisions written to Supabase | Creates a verifiable audit trail of user consent as required under Art. 28 DSGVO; Supabase operates under a data processing agreement |
 
