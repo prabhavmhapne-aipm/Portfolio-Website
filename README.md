@@ -3,7 +3,7 @@
 Professional portfolio website showcasing AI/ML product management work and technical product leadership.
 
 ## 🚀 Live Website
-[Add deployed URL here]
+https://www.verifyr.de/
 
 ## 📁 Structure
 - **Root** - Production portfolio website (single-page HTML app)
@@ -40,7 +40,7 @@ Professional portfolio website showcasing AI/ML product management work and tech
 - Demonstrated technical product decision-making
 
 ## 👤 About
-Junior AI Product Manager with 4+ years of engineering experience transitioning into product leadership. Unique blend of:
+Product Manager with 4+ years of engineering experience transitioning into product leadership. Unique blend of:
 - **Technical Depth:** Can build production RAG systems and evaluate AI/ML models
 - **Product Mindset:** Shipped 0→1 GenAI features, designed discovery processes
 - **Cross-Functional Leadership:** Led teams across engineering, design, and business stakeholders
@@ -54,9 +54,9 @@ Junior AI Product Manager with 4+ years of engineering experience transitioning 
 **Languages:** German (C1), English (Fluent)
 
 ## 📫 Contact
-- **LinkedIn:** [Add LinkedIn URL]
-- **Email:** [Add email]
-- **GitHub:** [Add GitHub URL]
+- **LinkedIn:** [https://www.linkedin.com/in/prabhavmhapne/]
+- **Email:** [prabhavmhapne@gmx.de]
+- **GitHub:** [https://github.com/prabhavmhapne-aipm/]
 
 ## 🎯 Target Roles
 - Junior/Associate AI Product Manager
