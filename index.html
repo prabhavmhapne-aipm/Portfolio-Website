@@ -495,6 +495,21 @@
       margin-bottom: 32px;
     }
 
+    /* Typewriter blinking cursor */
+    .typed-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--color-text-muted);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: cursorBlink 1s step-end infinite;
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
     /* Button container in hero */
     .hero-cta {
       display: flex;
@@ -3139,6 +3154,11 @@
 
       // Update <html> lang attribute for accessibility and SEO
       document.getElementById('html-root').setAttribute('lang', lang);
+
+      // Re-run typewriter in the new language if consent has already been given
+      if (localStorage.getItem('cookie_consent')) {
+        startTypewriter();
+      }
     }
 
     // Apply translations to all elements with data-i18n attribute
@@ -3374,6 +3394,9 @@
       const consent = localStorage.getItem('cookie_consent');
       if (!consent) {
         document.getElementById('cookie-consent-banner').classList.add('show');
+      } else {
+        // Consent already given — start typewriter after the loading screen fades out
+        waitForRevealAndType();
       }
     }
 
@@ -3395,9 +3418,12 @@
       localStorage.setItem('cookie_consent', 'necessary');
       localStorage.setItem('consent_timestamp', new Date().toISOString());
       document.getElementById('cookie-consent-banner').classList.remove('show');
-      
+
       // Track consent decision
       trackConsentDecision('necessary', false);
+
+      // Start typewriter now that the banner is dismissed
+      setTimeout(startTypewriter, 400);
     }
 
     // Open consent preferences modal
@@ -3432,9 +3458,11 @@
       document.getElementById('cookie-consent-banner').classList.remove('show');
       closeConsentModal();
       
-      // Reload if analytics was just enabled
+      // Reload if analytics was just enabled; otherwise start typewriter directly
       if (analyticsChecked) {
         location.reload();
+      } else {
+        setTimeout(startTypewriter, 400);
       }
     }
 
@@ -3450,6 +3478,60 @@
           }]);
       } catch (err) {
         console.error('Error tracking consent:', err);
+      }
+    }
+
+    // ── Typewriter effect for hero subtitle ──────────────────────────
+    let _typewriterTimer = null;
+
+    function startTypewriter() {
+      const el = document.querySelector('.hero-subtitle');
+      if (!el) return;
+
+      // Read text directly from translations so it's always correct for current language
+      const lang = localStorage.getItem('site_language') || 'en';
+      const text = (translations[lang] && translations[lang]['hero_subtitle'])
+        ? translations[lang]['hero_subtitle']
+        : el.textContent.trim();
+      if (!text) return;
+
+      // Cancel any in-progress typewriter
+      if (_typewriterTimer) { clearTimeout(_typewriterTimer); _typewriterTimer = null; }
+
+      // Lock the element's current height before clearing text so the
+      // badge above and buttons below never shift during typing
+      el.style.minHeight = el.offsetHeight + 'px';
+
+      // Replace element content with typing structure
+      el.innerHTML = '<span class="typed-text"></span><span class="typed-cursor"></span>';
+      const typedSpan = el.querySelector('.typed-text');
+      const cursor    = el.querySelector('.typed-cursor');
+
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          typedSpan.textContent += text[i++];
+          _typewriterTimer = setTimeout(type, 22);
+        } else {
+          // Typing done — fade cursor out after a pause
+          setTimeout(() => {
+            cursor.style.transition = 'opacity 1s ease';
+            cursor.style.opacity    = '0';
+          }, 2000);
+        }
+      }
+      type();
+    }
+
+    // Wait for the loading screen to finish before starting the typewriter
+    function waitForRevealAndType() {
+      const loaderEl = document.getElementById('loader-overlay');
+      if (loaderEl) {
+        loaderEl.addEventListener('transitionend', () => {
+          setTimeout(startTypewriter, 400);
+        }, { once: true });
+      } else {
+        setTimeout(startTypewriter, 400);
       }
     }
 
@@ -4105,6 +4187,160 @@
       } else {
         preloadAssets();
       }
+    })();
+  </script>
+
+  <!-- ========================================
+       ANTIGRAVITY PARTICLE SWARM
+       Shared factory used by both the loader canvas and the main page canvas.
+       Canvas elements are injected via JS — never touch HTML layout.
+       ======================================== -->
+  <script>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      // ── Shared ring config ────────────────────────────────────────────
+      const RINGS = [
+        { count:  1, radius:   0, speed:  0,      size: 2.5, alpha: 0.45 },
+        { count:  8, radius:  38, speed:  0.012,  size: 2.2, alpha: 0.40 },
+        { count: 16, radius:  76, speed: -0.008,  size: 1.9, alpha: 0.32 },
+        { count: 24, radius: 118, speed:  0.006,  size: 1.6, alpha: 0.26 },
+        { count: 32, radius: 162, speed: -0.0045, size: 1.3, alpha: 0.20 },
+        { count: 40, radius: 208, speed:  0.003,  size: 1.1, alpha: 0.14 },
+        { count: 48, radius: 256, speed: -0.0022, size: 0.9, alpha: 0.09 },
+      ];
+
+      // ── Animation factory ─────────────────────────────────────────────
+      // Call with any canvas element; returns a stop() function for cleanup.
+      function makeAnimation(canvas) {
+        const ctx    = canvas.getContext('2d');
+        const swarm  = { x: 0, y: 0 };
+        const target = { x: 0, y: 0 };
+        let chaos         = 0;
+        let lastMouseMove = 0;
+        let animId;
+
+        function resize() {
+          canvas.width  = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+          constructor(angle, ring) {
+            this.angle  = angle;
+            this.speed  = ring.speed;
+            this.radius = ring.radius;
+            this.size   = ring.size  + (Math.random() - 0.5) * 0.4;
+            this.alpha  = ring.alpha + (Math.random() - 0.5) * 0.05;
+            this.x = swarm.x; this.y = swarm.y;
+            this.rx = 0; this.ry = 0;
+            this.rvx = 0; this.rvy = 0;
+          }
+
+          update() {
+            this.angle += this.speed;
+            const ringX = swarm.x + Math.cos(this.angle) * this.radius;
+            const ringY = swarm.y + Math.sin(this.angle) * this.radius;
+
+            if (chaos > 0.005) {
+              const intensity = chaos * (1 + this.radius / 180) * 2.2;
+              this.rvx += (Math.random() - 0.5) * intensity;
+              this.rvy += (Math.random() - 0.5) * intensity;
+              this.rvx *= 0.88; this.rvy *= 0.88;
+              this.rx  += this.rvx; this.ry += this.rvy;
+            } else {
+              this.rx *= 0.88; this.ry *= 0.88;
+              this.rvx = 0;    this.rvy = 0;
+            }
+
+            const ease = this.radius === 0 ? 0.12 : 0.07;
+            this.x += (ringX + this.rx - this.x) * ease;
+            this.y += (ringY + this.ry - this.y) * ease;
+          }
+
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, Math.max(this.size, 0.5), 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(37, 99, 235, ${this.alpha})`;
+            ctx.fill();
+          }
+        }
+
+        let particles = [];
+
+        function init() {
+          swarm.x = target.x = canvas.width  / 2;
+          swarm.y = target.y = canvas.height / 2;
+          particles = [];
+          RINGS.forEach(ring => {
+            for (let i = 0; i < ring.count; i++) {
+              particles.push(new Particle((i / ring.count) * Math.PI * 2, ring));
+            }
+          });
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          const ms = Date.now() - lastMouseMove;
+          chaos = ms < 80
+            ? Math.min(1, chaos + 0.08)
+            : Math.max(0, chaos - 0.025);
+          swarm.x += (target.x - swarm.x) * 0.045;
+          swarm.y += (target.y - swarm.y) * 0.045;
+          particles.forEach(p => { p.update(); p.draw(); });
+          animId = requestAnimationFrame(animate);
+        }
+
+        function onMove(e) {
+          target.x      = e.clientX;
+          target.y      = e.clientY;
+          lastMouseMove = Date.now();
+        }
+        function onLeave() {
+          target.x = canvas.width  / 2;
+          target.y = canvas.height / 2;
+        }
+        function onResize() {
+          cancelAnimationFrame(animId);
+          resize(); init(); animate();
+        }
+
+        document.addEventListener('mousemove',  onMove);
+        document.addEventListener('mouseleave', onLeave);
+        window.addEventListener('resize',       onResize);
+
+        resize(); init(); animate();
+
+        return function stop() {
+          cancelAnimationFrame(animId);
+          document.removeEventListener('mousemove',  onMove);
+          document.removeEventListener('mouseleave', onLeave);
+          window.removeEventListener('resize',       onResize);
+        };
+      }
+
+      // ── Loader canvas ─────────────────────────────────────────────────
+      // Injected inside #loader-overlay so it fades out with the loader.
+      const loaderEl = document.getElementById('loader-overlay');
+      if (loaderEl) {
+        const lc = document.createElement('canvas');
+        lc.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+        loaderEl.insertBefore(lc, loaderEl.firstChild);
+        // Lift the loader content (PM logo, progress) above the canvas
+        const loaderBox = loaderEl.querySelector('.loader-container');
+        if (loaderBox) { loaderBox.style.position = 'relative'; loaderBox.style.zIndex = '1'; }
+        const stopLoader = makeAnimation(lc);
+        // Clean up when the loader's fade-out transition ends
+        loaderEl.addEventListener('transitionend', stopLoader, { once: true });
+      }
+
+      // ── Main page canvas ──────────────────────────────────────────────
+      // Fixed behind all page content, persists for the whole session.
+      const mc = document.createElement('canvas');
+      mc.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;';
+      document.body.appendChild(mc);
+      makeAnimation(mc);
+
     })();
   </script>
 </body>

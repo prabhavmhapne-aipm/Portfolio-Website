@@ -3,7 +3,7 @@
 Professional portfolio website showcasing product management work and technical product leadership.
 
 ## 🚀 Live Website
-https://www.prabhavmhapne.com
+https://www.prabhavmhapne.com/
 
 ## 📁 Structure
 - **Root** - Production portfolio website (single-page HTML app)
@@ -149,9 +149,9 @@ Product Manager with 4+ years of engineering experience transitioning into produ
 **Languages:** German (C1), English (Fluent)
 
 ## 📫 Contact
-- **LinkedIn:** [https://www.linkedin.com/in/prabhavmhapne/]
-- **Email:** [prabhavmhapne@gmx.de]
-- **GitHub:** [https://github.com/prabhavmhapne-aipm/]
+- **LinkedIn:** https://www.linkedin.com/in/prabhavmhapne/
+- **Email:** prabhavmhapne@gmx.de
+- **GitHub:** https://github.com/prabhavmhapne-aipm/
 
 ---
 
