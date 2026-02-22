@@ -8,12 +8,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO: Description that appears in search results -->
-  <meta name="description" content="Prabhav Mhapne - AI Product Manager who builds end-to-end product strategy, designs, codes, and ships. Turning ambiguous problems into shipped, measurable outcomes.">
-  
+  <meta name="description" content="Prabhav Mhapne — Problem-first full-stack PM with IT/OT background and strategic fundamentals. Translating business goals & customer needs into products that solve real-world problems.">
+
   <!-- Open Graph tags for social media sharing -->
   <meta property="og:title" content="Prabhav Mhapne - Product Manager">
-  <meta property="og:description" content="AI Product Manager who builds end-to-end product strategy, designs, codes, and ships">
-  <meta property="og:type" content="website">
+  <meta property="og:description" content="Problem-first full-stack product manager with IT/OT background and strategic fundamentals. I translate business goals & customer needs into functional user stories, features & products that solve real-world problems.">
+  <meta property="og:type" content="profile">
+  <meta property="profile:first_name" content="Prabhav">
+  <meta property="profile:last_name" content="Mhapne">
+  <meta property="profile:username" content="prabhavmhapne">
 
   <!-- Canonical URL -->
   <link rel="canonical" href="https://prabhavmhapne.com/">
@@ -24,14 +27,14 @@
   <meta property="og:image" content="https://prabhavmhapne.com/prabhav-photo.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Prabhav Mhapne - AI Product Manager">
+  <meta property="og:image:alt" content="Prabhav Mhapne - Product Manager">
   <meta property="og:locale" content="en_US">
   <meta property="og:locale:alternate" content="de_DE">
 
   <!-- Twitter Card tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Prabhav Mhapne - Product Manager">
-  <meta name="twitter:description" content="AI Product Manager who builds end-to-end product strategy, designs, codes, and ships">
+  <meta name="twitter:description" content="Problem-first full-stack product manager with IT/OT background and strategic fundamentals. I translate business goals & customer needs into functional user stories, features & products that solve real-world problems.">
   <meta name="twitter:image" content="https://prabhavmhapne.com/prabhav-photo.png">
   <meta name="twitter:site" content="@prabhavmhapne">
 
@@ -47,16 +50,79 @@
   <meta name="author" content="Prabhav Mhapne">
   <meta name="keywords" content="AI Product Manager, Product Manager Germany, RAG Systems, GenAI, Product Strategy, Düsseldorf, AI/ML, 0-1 Products">
 
+  <!-- Mobile browser UI color -->
+  <meta name="theme-color" content="#2563eb">
+
+  <!-- Geo tags: local SEO for Düsseldorf, Germany -->
+  <meta name="geo.region" content="DE-NW">
+  <meta name="geo.placename" content="Düsseldorf, Germany">
+  <meta name="geo.position" content="51.2217;6.7762">
+  <meta name="ICBM" content="51.2217, 6.7762">
+
+  <!-- rel="me": links this page to your social profiles (identity verification) -->
+  <link rel="me" href="https://linkedin.com/in/prabhavmhapne">
+  <link rel="me" href="https://github.com/prabhavmhapne-aipm">
+
   <!-- Page title shown in browser tab -->
   <title>Prabhav Mhapne - Product Manager</title>
   
-  <!-- Favicon: Small icon shown in browser tab with "PM" text -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%232563eb'/%3E%3Ctext x='50' y='65' font-family='Inter, sans-serif' font-size='45' font-weight='700' fill='white' text-anchor='middle'%3EPM%3C/text%3E%3C/svg%3E">
+  <!-- Favicon: "PM" icon shown in browser tab and Google search results -->
+  <!-- SVG favicon — crawlable by Google (data: URIs are not) -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Fallback for browsers that don't support SVG favicons -->
+  <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg">
   
   <!-- Preload Google Fonts for faster loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+Pro:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- JSON-LD structured data: Person + WebSite schemas for Google rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://prabhavmhapne.com/#person",
+        "name": "Prabhav Mhapne",
+        "url": "https://prabhavmhapne.com/",
+        "image": "https://prabhavmhapne.com/prabhav-photo.png",
+        "jobTitle": "Product Manager",
+        "description": "Problem-first full-stack PM with IT/OT background and strategic fundamentals. Translating business goals & customer needs into products that solve real-world problems.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Düsseldorf",
+          "addressCountry": "DE"
+        },
+        "sameAs": [
+          "https://linkedin.com/in/prabhavmhapne",
+          "https://github.com/prabhavmhapne-aipm"
+        ],
+        "knowsLanguage": ["en", "de"],
+        "knowsAbout": [
+          "Product Management",
+          "Artificial Intelligence",
+          "RAG Systems",
+          "GenAI",
+          "IT/OT Systems",
+          "Product Strategy"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://prabhavmhapne.com/#website",
+        "url": "https://prabhavmhapne.com/",
+        "name": "Prabhav Mhapne - Product Manager",
+        "description": "Portfolio of Prabhav Mhapne, AI Product Manager based in Düsseldorf, Germany.",
+        "publisher": {
+          "@id": "https://prabhavmhapne.com/#person"
+        },
+        "inLanguage": ["en", "de"]
+      }
+    ]
+  }
+  </script>
 
   <!-- Loader Critical CSS (inline for instant render) -->
   <style id="loader-critical-css">

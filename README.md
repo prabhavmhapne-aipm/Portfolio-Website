@@ -145,7 +145,7 @@ Product Manager with 4+ years of engineering experience transitioning into produ
 - AI Product Management Certification with Capstone Project (Maven)
 - Product Management Bootcamp (Digitale Leute School)
 
-**Location:** Düsseldorf, Germany (open to relocation)
+**Location:** Düsseldorf, Germany
 **Languages:** German (C1), English (Fluent)
 
 ## 📫 Contact
